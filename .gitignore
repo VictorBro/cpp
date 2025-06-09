@@ -30,3 +30,5 @@
 *.exe
 *.out
 *.app
+module00/ex00/megaphone
+module00/ex01/PhoneBook
