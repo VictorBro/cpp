@@ -6,7 +6,7 @@
 /*   By: vbronov <vbronov@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 21:19:57 by vbronov           #+#    #+#             */
-/*   Updated: 2025/06/10 00:15:58 by vbronov          ###   ########.fr       */
+/*   Updated: 2025/06/13 11:56:08 by vbronov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,11 @@ int main()
     while (true)
     {
         std::cout << "Enter command (ADD, SEARCH, EXIT): ";
-        std::getline(std::cin, command);
+        if (!std::getline(std::cin, command)) {
+            // Handle EOF (Ctrl+D)
+            std::cout << "\nEOF detected, exiting program." << std::endl;
+            break;
+        }
 
         if (command == "ADD")
         {
@@ -59,46 +63,81 @@ int main()
             std::string input;
 
             std::cout << "First Name: ";
-            std::getline(std::cin, input);
+            if (!std::getline(std::cin, input)) {
+                std::cout << "\nEOF detected, canceling add operation." << std::endl;
+                break;
+            }
             while (input.empty()) {
                 std::cout << "Field cannot be empty. First Name: ";
-                std::getline(std::cin, input);
+                if (!std::getline(std::cin, input)) {
+                    std::cout << "\nEOF detected, canceling add operation." << std::endl;
+                    break;
+                }
             }
+            if (std::cin.eof()) break;
             contact.setFirstName(input);
 
             std::cout << "Last Name: ";
-            std::getline(std::cin, input);
+            if (!std::getline(std::cin, input)) {
+                std::cout << "\nEOF detected, canceling add operation." << std::endl;
+                break;
+            }
             while (input.empty()) {
                 std::cout << "Field cannot be empty. Last Name: ";
-                std::getline(std::cin, input);
+                if (!std::getline(std::cin, input)) {
+                    std::cout << "\nEOF detected, canceling add operation." << std::endl;
+                    break;
+                }
             }
+            if (std::cin.eof()) break;
             contact.setLastName(input);
 
             std::cout << "Nickname: ";
-            std::getline(std::cin, input);
+            if (!std::getline(std::cin, input)) {
+                std::cout << "\nEOF detected, canceling add operation." << std::endl;
+                break;
+            }
             while (input.empty()) {
                 std::cout << "Field cannot be empty. Nickname: ";
-                std::getline(std::cin, input);
+                if (!std::getline(std::cin, input)) {
+                    std::cout << "\nEOF detected, canceling add operation." << std::endl;
+                    break;
+                }
             }
+            if (std::cin.eof()) break;
             contact.setNickname(input);
 
             std::cout << "Phone Number: ";
-            std::getline(std::cin, input);
+            if (!std::getline(std::cin, input)) {
+                std::cout << "\nEOF detected, canceling add operation." << std::endl;
+                break;
+            }
             while (input.empty() || !isValidPhoneNumber(input)) {
                 if (input.empty())
                     std::cout << "Field cannot be empty. Phone Number: ";
                 else
                     std::cout << "Invalid phone number. Must contain digits and only allowed symbols (+, -, space, parentheses). Phone Number: ";
-                std::getline(std::cin, input);
+                if (!std::getline(std::cin, input)) {
+                    std::cout << "\nEOF detected, canceling add operation." << std::endl;
+                    break;
+                }
             }
+            if (std::cin.eof()) break;
             contact.setPhoneNumber(input);
 
             std::cout << "Darkest Secret: ";
-            std::getline(std::cin, input);
+            if (!std::getline(std::cin, input)) {
+                std::cout << "\nEOF detected, canceling add operation." << std::endl;
+                break;
+            }
             while (input.empty()) {
                 std::cout << "Field cannot be empty. Darkest Secret: ";
-                std::getline(std::cin, input);
+                if (!std::getline(std::cin, input)) {
+                    std::cout << "\nEOF detected, canceling add operation." << std::endl;
+                    break;
+                }
             }
+            if (std::cin.eof()) break;
             contact.setDarkestSecret(input);
 
             phoneBook.addContact(contact);
@@ -113,7 +152,10 @@ int main()
             
             while (!validInput) {
                 std::cout << "Enter index to display details: ";
-                std::getline(std::cin, indexStr);
+                if (!std::getline(std::cin, indexStr)) {
+                    std::cout << "\nEOF detected, canceling search operation." << std::endl;
+                    break;
+                }
                 
                 std::istringstream iss(indexStr);
                 if (iss >> index && iss.eof()) {
@@ -123,6 +165,7 @@ int main()
                 }
             }
             
+            if (std::cin.eof()) break;
             phoneBook.displayContact(index);
         }
         else if (command == "EXIT")
