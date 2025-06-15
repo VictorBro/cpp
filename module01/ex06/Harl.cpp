@@ -34,7 +34,8 @@ void Harl::info(void)
 void Harl::warning(void)
 {
     std::cout << "[ WARNING ]\n"
-              << "I think I deserve to have some extra bacon for free. I’ve been coming for years whereas you started working here since last month." << std::endl;
+              << "I think I deserve to have some extra bacon for free." << std::endl
+              << "I’ve been coming for years whereas you started working here since last month." << std::endl;
 }
 
 void Harl::error(void)
@@ -56,25 +57,24 @@ int Harl::getLogLevel(const std::string &level) const
 void Harl::complain(std::string level)
 {
     int logLevel = getLogLevel(level);
+    
     switch (logLevel)
     {
         case DEBUG:
-            (this->*functions[DEBUG])();
-            (this->*functions[INFO])();
-            (this->*functions[WARNING])();
-            (this->*functions[ERROR])();
-            break;
+            debug();
+            std::cout << std::endl;
+            /* fall through */
         case INFO:
-            (this->*functions[INFO])();
-            (this->*functions[WARNING])();
-            (this->*functions[ERROR])();
-            break;
+            info();
+            std::cout << std::endl;
+            /* fall through */
         case WARNING:
-            (this->*functions[WARNING])();
-            (this->*functions[ERROR])();
-            break;
+            warning();
+            std::cout << std::endl;
+            /* fall through */
         case ERROR:
-            (this->*functions[ERROR])();
+            error();
+            std::cout << std::endl;
             break;
         default:
             std::cout << "[ Probably complaining about insignificant problems ]" << std::endl;
